@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ImportComponent {
   displayedColumns: string[] = [];
-  dataSource!: MatTableDataSource<any>; // Ändern des Typs auf MatTableDataSource
+  dataSource!: MatTableDataSource<any>;
   dataLoading = false;
 
   onFileChange(evt: any) {
@@ -30,22 +30,40 @@ export class ImportComponent {
     this.dataLoading = status;
   }
 
-  filterValue = '';
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filterValue = filterValue;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+
+  //search and Country
+  searchValue = '';
+  applyFilter(event: Event, menuFilter?: string) {
+    const searchValue = (event.target as HTMLInputElement).value;
+    this.searchValue = searchValue;
+
+    if (menuFilter) {
+      // Führen Sie die Filterlogik für den Menüfilter durch
+      // Hier können Sie die Filterung basierend auf dem Menüfilterwert implementieren
+      console.log('Selected Menu Filter:', menuFilter);
+    }
+
+    this.dataSource.filter = this.searchValue.trim().toLowerCase();
+  }
+
+  getUniqueCountries(): string[] {
+    // Extrahieren Sie alle eindeutigen Länder aus den Daten
+    const countriesSet = new Set(this.dataSource.data.map((element: any) => element.Country));
+    const uniqueCountries = Array.from(countriesSet);
+    return uniqueCountries;
   }
 
   getValueTrue(value: string | number): boolean {
-    if (this.filterValue === '') {
+    if (this.searchValue === '') {
       return false;
-    } else if (String(value).includes(this.filterValue)) {
+    } else if (String(value).includes(this.searchValue)) {
       return true;
     } else {
       return false;
     }
   }
+
 
   constructor(private appData: AppDataService){}
 }

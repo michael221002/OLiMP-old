@@ -21,6 +21,7 @@ import {MatTableModule} from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu';
 
 //services
 import { AppDataService } from './services/app-data.service';
@@ -48,7 +49,8 @@ import { AppDataService } from './services/app-data.service';
     MatTableModule,
     CommonModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   providers: [AppDataService],
   bootstrap: [AppComponent]

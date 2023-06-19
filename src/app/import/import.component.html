@@ -11,9 +11,14 @@
       <input (keyup)="applyFilter($event)" placeholder="search">
     </div>
     <div class="content">
-      <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+      <button mat-fab color="primary" [matMenuTriggerFor]="menu">
         <mat-icon>filter_list</mat-icon>
       </button>
+      <mat-menu #menu="matMenu" xPosition="before" color="primary">
+        <button mat-menu-item *ngFor="let country of getUniqueCountries()" (click)="applyFilter($event, country)">
+          {{ country }}
+        </button>
+      </mat-menu>
     </div>
   </div>
   <div class="tableContainer">
