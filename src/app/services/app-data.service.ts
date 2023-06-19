@@ -3,10 +3,17 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { NewFile } from '../models/newFile';
 import * as XLSX from 'xlsx';
 
+interface response {
+  item: any;
+  value: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppDataService {
+
+  //import new File
   private newFile: BehaviorSubject<NewFile> = new BehaviorSubject<NewFile>({
     jsonData: [],
     displayedColumns: []
@@ -34,6 +41,42 @@ export class AppDataService {
 
   getNewFile(): Observable<NewFile> {
     return this.newFile.asObservable();
+  }
+
+  //filter Array
+  filter(value: string[], data: any[]): any[] {
+    let response: any[] = [];
+  
+    for (let item of data) {
+      let allCriteriaMatched = true;
+  
+      for (let i of value) {
+        let criteriaMatched = false;
+  
+        for (let key in item) {
+          const fieldValue = item[key];
+  
+          if (typeof fieldValue === 'string' && fieldValue.toLowerCase().includes(i.toLowerCase())) {
+            criteriaMatched = true;
+            break;
+          } else if (typeof fieldValue === 'number' && fieldValue.toString().includes(i)) {
+            criteriaMatched = true;
+            break;
+          }
+        }
+  
+        if (!criteriaMatched) {
+          allCriteriaMatched = false;
+          break;
+        }
+      }
+  
+      if (allCriteriaMatched) {
+        response.push(item);
+      }
+    }
+  
+    return response;
   }
 
   constructor() { }

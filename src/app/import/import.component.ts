@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AppDataService } from '../services/app-data.service';
 import { NewFile } from '../models/newFile';
 import { timer } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-import',
@@ -11,13 +10,15 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ImportComponent {
   displayedColumns: string[] = [];
-  dataSource!: MatTableDataSource<any>;
+  dataSource!: any[];
+  filteredDataSource!: any[];
   dataLoading = false;
 
   onFileChange(evt: any) {
     this.appData.newFileImport(evt).subscribe((data: NewFile) => {
       this.setLoadingStatus(true);
-      this.dataSource = new MatTableDataSource(data.jsonData);
+      this.dataSource = data.jsonData;
+      this.filteredDataSource = data.jsonData;
       this.displayedColumns = data.displayedColumns;
   
       timer(500).subscribe(() => {
@@ -30,43 +31,42 @@ export class ImportComponent {
     this.dataLoading = status;
   }
 
+  searchValue: string[] = [];
+  filterValue: string[] = [];
 
-
-  //search and Country
-  searchValue = '';
-  applyFilter(event: Event, menuFilter?: string) {
-    const searchValue = (event.target as HTMLInputElement).value;
-    this.searchValue = searchValue;
-
-    if (menuFilter) {
-      // Führen Sie die Filterlogik für den Menüfilter durch
-      // Hier können Sie die Filterung basierend auf dem Menüfilterwert implementieren
-      console.log('Selected Menu Filter:', menuFilter);
+  applyFilter(evt: Event) {
+    const input = (evt.target as HTMLInputElement).value.trim();
+    if (input !== '') {
+      this.searchValue = input.split(' ');
+      const value = this.searchValue.concat(this.filterValue);
+      this.filteredDataSource = this.appData.filter(value, this.dataSource);
+      console.log(this.filteredDataSource)
+    } else {
+      this.searchValue = []; // Setzen Sie die searchValue-Liste auf eine leere Liste
+      this.filteredDataSource = this.dataSource;
     }
-
-    this.dataSource.filter = this.searchValue.trim().toLowerCase();
   }
 
-  getUniqueCountries(): string[] {
-    // Überprüfen, ob das dataSource-Objekt initialisiert und Daten enthält
-    if (this.dataSource && this.dataSource.data) {
-      // Extrahieren Sie alle eindeutigen Länder aus den Daten
-      const countriesSet = new Set(this.dataSource.data.map((element: any) => element.Country));
-      const uniqueCountries = Array.from(countriesSet);
-      return uniqueCountries;
+  isValuePresent(search: string[], value: any): boolean {
+    if (typeof value === 'string') {
+      const lowerCaseValue = value.toLowerCase();
+  
+      for (let i of search) {
+        if (lowerCaseValue.includes(i.toLowerCase())) {
+          return true;
+        }
+      }
+    } else if (typeof value === 'number') {
+      const stringValue = value.toString();
+  
+      for (let i of search) {
+        if (stringValue.includes(i)) {
+          return true;
+        }
+      }
     }
   
-    return []; // Wenn keine Daten vorhanden sind, geben Sie ein leeres Array zurück
-  }
-
-  getValueTrue(value: string | number): boolean {
-    if (this.searchValue === '') {
-      return false;
-    } else if (String(value).includes(this.searchValue)) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 
 

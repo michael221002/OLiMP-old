@@ -28,16 +28,15 @@
         border-radius: 10px;
         border: none;
         &:focus {
-          outline: none; /* Entfernt die Standard-Browser-Kontur */
-          border-color: blue; /* Ändert die Farbe des Rahmens beim Fokus */
-          box-shadow: 0 0 5px blue; /* Fügt einen Schatten um das Input-Feld hinzu */
+          outline: none;
+          border-color: blue;
+          box-shadow: 0 0 5px blue;
         }
       }
       input[type="file"] {
         display: none;
       }
       
-      /* Erstelle ein benutzerdefiniertes Design für den File-Input */
       .label-wrapper {
         display: inline-block;
         padding: 8px 16px;
@@ -59,24 +58,37 @@
     overflow-x: auto;
     
     table {
-      // ... andere Stile
-
-      .sticky-header {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        background-color: #f9f9f9;
-        border-bottom: black solid 1px;
-        color: white;
-        background-color: rgb(124, 124, 253);
-      }
-
-      .columns {
-        // Styles für die normalen Zellen
-      }
-      
-      .columns.highlighted {
-        background-color: yellow; /* Beispielhafte Hervorhebungsfarbe */
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+    
+      thead,
+      tbody {
+        tr {
+          th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            color: white;
+            background-color: rgb(124, 124, 253);
+            text-align: left;
+            min-width: 150px;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          td {
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            
+            .highlighted {
+              color: red;
+            }
+          }
+        }
       }
     }
   }

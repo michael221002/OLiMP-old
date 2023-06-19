@@ -15,24 +15,27 @@
         <mat-icon>filter_list</mat-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before" color="primary">
-        <button mat-menu-item *ngFor="let country of getUniqueCountries()" (click)="applyFilter($event, country)">
-          {{ country }}
+        <button mat-menu-item>
         </button>
       </mat-menu>
     </div>
   </div>
   <div class="tableContainer">
-    <table mat-table [dataSource]="dataSource" matSort matPaginator #paginator>
-      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-        <th mat-header-cell *matHeaderCellDef class="columns sticky-header"> {{ column }} </th>
-        <td mat-cell *matCellDef="let element" class="columns" [class.highlighted]="element.foundValue === element[column]">
-          <span *ngIf="getValueTrue(element[column])" style="color: red;">{{ element[column] }}</span>
-          <span *ngIf="!getValueTrue(element[column])" style="color: black;">{{ element[column] }}</span>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <table *ngIf="!dataLoading" class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let column of displayedColumns">{{ column }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredDataSource">
+          <td *ngFor="let column of displayedColumns">
+            <span [ngClass]="{'highlighted': isValuePresent(searchValue, item[column])}">
+              {{ item[column] }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
     </table>
-  </div>       
+  </div>  
 </div>
