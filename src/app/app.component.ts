@@ -11,6 +11,8 @@ export class AppComponent {
   @ViewChild('drawer') drawer!: MatDrawer;
 
   ngAfterViewInit() {
-    this.drawer.toggle();
+    setTimeout(() => {
+      this.drawer.toggle();
+    });
   }
 }

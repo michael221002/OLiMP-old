@@ -48,10 +48,15 @@ export class ImportComponent {
   }
 
   getUniqueCountries(): string[] {
-    // Extrahieren Sie alle eindeutigen Länder aus den Daten
-    const countriesSet = new Set(this.dataSource.data.map((element: any) => element.Country));
-    const uniqueCountries = Array.from(countriesSet);
-    return uniqueCountries;
+    // Überprüfen, ob das dataSource-Objekt initialisiert und Daten enthält
+    if (this.dataSource && this.dataSource.data) {
+      // Extrahieren Sie alle eindeutigen Länder aus den Daten
+      const countriesSet = new Set(this.dataSource.data.map((element: any) => element.Country));
+      const uniqueCountries = Array.from(countriesSet);
+      return uniqueCountries;
+    }
+  
+    return []; // Wenn keine Daten vorhanden sind, geben Sie ein leeres Array zurück
   }
 
   getValueTrue(value: string | number): boolean {
