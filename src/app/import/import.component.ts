@@ -15,11 +15,19 @@ export class ImportComponent {
   dataLoading = false;
 
   onFileChange(evt: any) {
+    this.searchValue = [];
+    this.filterValue = [];
     this.appData.newFileImport(evt).subscribe((data: NewFile) => {
       this.setLoadingStatus(true);
       this.dataSource = data.jsonData;
       this.filteredDataSource = data.jsonData;
       this.displayedColumns = data.displayedColumns;
+      try {
+        this.uniqueCountries = [...new Set(data.jsonData.map((item: any) => item.Country))];
+      } catch (error) {
+        this.uniqueCountries = []; // Setze die Liste auf eine leere Liste, falls ein Fehler auftritt
+      }
+
   
       timer(500).subscribe(() => {
         this.setLoadingStatus(false);
@@ -40,12 +48,18 @@ export class ImportComponent {
       this.searchValue = input.split(' ');
       const value = this.searchValue.concat(this.filterValue);
       this.filteredDataSource = this.appData.filter(value, this.dataSource);
-      console.log(this.filteredDataSource)
     } else {
       this.searchValue = []; // Setzen Sie die searchValue-Liste auf eine leere Liste
       this.filteredDataSource = this.dataSource;
     }
   }
+
+  setFilterValue(event: Event, country: string) {
+    event.preventDefault();
+    this.filterValue = [country];
+    this.applyFilter({ target: { value: country } } as unknown as Event);
+  }
+  
 
   isValuePresent(search: string[], value: any): boolean {
     if (typeof value === 'string') {
@@ -68,6 +82,7 @@ export class ImportComponent {
   
     return false;
   }
+  uniqueCountries: string[] = [];
 
 
   constructor(private appData: AppDataService){}

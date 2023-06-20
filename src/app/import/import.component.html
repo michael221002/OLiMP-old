@@ -10,12 +10,17 @@
     <div class="content">
       <input (keyup)="applyFilter($event)" placeholder="search">
     </div>
-    <div class="content">
+    <div class="content" id="last">
+      <h2 style="color:white; margin:0;">{{filterValue}}</h2>
       <button mat-fab color="primary" [matMenuTriggerFor]="menu">
         <mat-icon>filter_list</mat-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before" color="primary">
-        <button mat-menu-item>
+        <button mat-menu-item *ngFor="let country of uniqueCountries" (click)="setFilterValue($event, country)">
+          {{ country }}
+        </button>
+        <button mat-menu-item (click)="setFilterValue($event, '')">
+          None
         </button>
       </mat-menu>
     </div>

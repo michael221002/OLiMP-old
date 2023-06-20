@@ -1,5 +1,10 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="false">
-  <mat-drawer #drawer [mode]="'side'">I'm a drawer</mat-drawer>
+  <mat-drawer #drawer [mode]="'side'">
+    <button mat-button color="primary">NewFile</button>
+    <button mat-button color="primary">Dashbord</button>
+    <button mat-button color="primary">Tasks</button>
+    <button mat-button color="primary">Analytics</button>
+  </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar color="primary">
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
