@@ -13,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Importiere MatSnackBarModule hier
+
 
 //services
 import { AppDataService } from './services/app-data.service';
@@ -35,7 +37,8 @@ import { InitializeComponent } from './initialize/initialize.component';
     MatToolbarModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [AppDataService, ImportService],
   bootstrap: [AppComponent]

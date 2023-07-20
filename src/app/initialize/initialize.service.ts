@@ -3,14 +3,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tableScema } from '../models/tableScema';
 import * as XLSX from 'xlsx';
 import { InitializeFiles } from '../models/initialize-service.model';
+import { AppDataService } from '../services/app-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InitializeService {
+
+  constructor(private appData: AppDataService){}
+
+
   private initializeFiles: BehaviorSubject<InitializeFiles[]> = new BehaviorSubject<InitializeFiles[]>([]);
 
   newFileImport(file: File): Observable<InitializeFiles> {
+    this.initializeFiles.next([]);
     const reader = new FileReader();
 
     return new Observable<InitializeFiles>((observer) => {

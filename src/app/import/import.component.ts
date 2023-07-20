@@ -7,7 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ImportModel } from '../models/import.model';
 import { RequestService } from '../services/request.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-import',
@@ -35,15 +34,10 @@ export class ImportComponent implements OnInit {
   constructor(
     private appData: AppDataService, 
     public importData: ImportService, 
-    private requestService: RequestService,
-    private _snackBar: MatSnackBar) {}
+    private requestService: RequestService) {}
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      duration: 1500
-    });
+    this.appData.openSnackbar(message, action);
   }
 
   async saveCurrentState() {

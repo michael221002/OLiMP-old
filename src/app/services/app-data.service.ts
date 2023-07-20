@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 interface response {
   item: any;
@@ -18,7 +19,15 @@ export class AppDataService {
     return this.spinner;
   }
 
+
+  openSnackbar(message: string, action: string){
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 1500
+    });
+  }
   
 
-  constructor() { }
+  constructor(private _snackBar: MatSnackBar) { }
 }
