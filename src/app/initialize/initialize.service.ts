@@ -40,7 +40,7 @@ export class InitializeService {
         this.initializeFiles.next([...this.initializeFiles.value, result]);
         observer.next(result);
         observer.complete();
-      };
+      }; 
       reader.onerror = (error) => {
         observer.error(error);
       };
