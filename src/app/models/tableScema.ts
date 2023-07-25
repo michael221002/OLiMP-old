@@ -16,5 +16,6 @@ export interface tableScema {
     manager_employee_number?: number;
     is_employed: number; 
     termination_date?: string;  
-    last_date_worked_utc?: string;  
+    last_date_worked_utc?: string;
+    [key: string]: any;
 }

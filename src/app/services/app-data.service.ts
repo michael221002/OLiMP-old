@@ -11,12 +11,23 @@ interface response {
 })
 export class AppDataService {
 
-  spinner: boolean = false;
-  setSpinner(status: boolean){
-    this.spinner = status;
+  state = 0;
+
+  constructor(private _snackBar: MatSnackBar) { }
+
+  setSpinner(status: boolean) {
+    if (status) {
+      // Wenn der Status true ist, füge ihn zum Array hinzu
+      this.state += 1;
+    } else {
+      // Wenn der Status false ist, entferne ihn aus dem Array
+      this.state -= 1;
+    }
   }
-  getSpinner(){
-    return this.spinner;
+
+  getSpinner() {
+    // Der Gesamtstatus des Spinners ist true, wenn das Array mindestens einen true-Wert enthält
+    return this.state;
   }
 
 
@@ -27,7 +38,4 @@ export class AppDataService {
       duration: 1500
     });
   }
-  
-
-  constructor(private _snackBar: MatSnackBar) { }
 }

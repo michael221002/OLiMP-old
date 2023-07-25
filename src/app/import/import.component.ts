@@ -65,11 +65,11 @@ export class ImportComponent implements OnInit {
         this.filterDataSource();
       });
       this.appData.setSpinner(false);
-    }, 100);
+    });
   }
 
-  ngAfterViewInit(): void {
-    // Hier wird der Spinner aktualisiert, nachdem die View initialisiert wurde
+  ngAfterViewInit() {
+    this.appData.setSpinner(true);
     this.appData.setSpinner(false);
   }
 

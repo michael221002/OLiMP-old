@@ -19,14 +19,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Importiere M
 //services
 import { AppDataService } from './services/app-data.service';
 import { ImportService } from './import/import.service';
-import { InitializeComponent } from './initialize/initialize.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    InitializeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

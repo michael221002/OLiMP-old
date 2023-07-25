@@ -1,5 +1,30 @@
 <div class="main">
-    <div>
-        <input type="file" (change)="onFilesSelected($event)" multiple>
+    <div class="toolbar">
+        <div class="content">
+          <div style="display: flex; align-items: flex-end; flex-direction: row; gap:5px;">
+            <label class="label-wrapper">
+              <span>Datei auswählen</span>
+              <input type="file" (change)="onFilesSelected($event)" multiple>
+            </label>
+          </div>
+        </div>
+        <div class="content">
+        </div>
+        <div class="content">
+            <button mat-raised-button color="primary" (click)="startHistoryCreation()">Create History</button>
+        </div>
+    </div>
+    <div class="mainContent">
+      <mat-progress-bar
+          color="accent"
+          [mode]="'buffer'"
+          [value]="getProgressbarState()"
+          [bufferValue]="100">
+      </mat-progress-bar>
+      <div class="consoleContainer">
+        <ng-container *ngFor="let i of getWebConsole()">
+          <p>{{i}}</p>
+        </ng-container>
+      </div>
     </div>
 </div>
