@@ -114,38 +114,79 @@ export class InitializeService {
     console.log(this.getInitializeFiles())
     return new Observable((observer) => {
       const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
-      const logs: any[] = []; // To store log messages received from the Web Worker.
-      
+      const logs: any[] = []; // Neues Array, um die Log-Nachrichten zu speichern.
+
       worker.onmessage = (event) => {
         const message = event.data;
         if (message.type === 'log') {
           logs.push(message.message);
         } else if (message.type === 'result') {
           const changes = message.changes;
-          // You can process the 'changes' array as required.
-          // For example, you can call another function to handle the changes.
+
+          // Hier können Sie die 'changes'-Array verarbeiten, wie Sie es benötigen.
+          // Zum Beispiel können Sie eine andere Funktion aufrufen, um die Änderungen zu behandeln.
           this.handleChanges(changes);
-  
-          // Now, you can also use the 'logs' array to update the webConsole.
+
+          // Jetzt können Sie auch das 'logs'-Array verwenden, um die webConsole zu aktualisieren.
           for (const logMessage of logs) {
-            this.print(logMessage); // Call the print function to update the webConsole array.
+            this.print(logMessage); // Rufen Sie die print-Funktion auf, um das webConsole-Array zu aktualisieren.
           }
-          
+
           observer.next(changes);
           observer.complete();
         }
       };
+
       worker.onerror = (error) => {
         observer.error(error);
         observer.complete();
       };
+
       worker.postMessage({ files: this.initializeFiles.value });
     });
   }
+
+
+  //with log
+  /*
+  detectChanges(): Observable<any> {
+    console.log(this.getInitializeFiles())
+    return this.getInitializeFiles().pipe(
+      switchMap((files) => {
+        const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
+        const logs: any[] = [];
+
+        return new Observable((observer) => {
+          worker.onmessage = (event) => {
+            const message = event.data;
+            if (message.type === 'log') {
+              logs.push(message.message);
+              // Update the webConsole immediately with each log message.
+              this.print(message.message);
+            } else if (message.type === 'result') {
+              const changes = message.changes;
+              this.handleChanges(changes);
+              observer.next(changes);
+              observer.complete();
+            }
+          };
   
+          worker.onerror = (error) => {
+            observer.error(error);
+            observer.complete();
+          };
+  
+          worker.postMessage({ files });
+        });
+      })
+    );
+  }
+  */
+
   // Function to handle the changes received from the Web Worker.
   handleChanges(changes: any[]) {
-    // Perform any required actions with the 'changes' array here.
+    // Führen Sie hier die erforderlichen Aktionen mit dem 'changes'-Array aus.
+    this.print("fount: " + changes.length + " changes"); 
     console.log("Changes received:", changes);
   }
 
