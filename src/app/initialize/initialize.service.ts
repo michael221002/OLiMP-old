@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, distinctUntilChanged, map } from 'rxjs';
 import { tableScema } from '../models/tableScema';
 import * as XLSX from 'xlsx';
 import { InitializeFiles } from '../models/initialize-service.model';
@@ -110,25 +110,28 @@ export class InitializeService {
 
   //initialising context
   changes: any[] = [];
-  detectChanges(){
-    this.getInitializeFiles().subscribe(data => {
-      for (let file = 0; file < data.length; file++) {
-        for (let employee = 0; employee < data[file].jsonData.length; employee++) {
-          if (file +1 != data.length){
-            for (let secondEmployee = 0; secondEmployee < data[file+1].jsonData.length; secondEmployee++){
-              if ( data[file].jsonData[employee].employeenumber == data[file+1].jsonData[secondEmployee].employeenumber){
-                if (this.change(data[file].jsonData[employee], data[file+1].jsonData[secondEmployee])){
-                  console.log("found employee: " + data[file].jsonData[secondEmployee]);
-                  this.changes.push([data[file].jsonData[employee], data[file+1].jsonData[secondEmployee]])
-                }
-              }
-            }
+  detectChanges() {
+    this.getInitializeFiles().pipe(
+      // Do not process multiple times, only when new data is emitted.
+      distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
+    ).subscribe(files => {
+      this.changes = []; // Reset changes on each new data emission.
+  
+      for (let file = 0; file < files.length - 1; file++) {
+        for (let employee = 0; employee < files[file].jsonData.length; employee++) {
+          const currentEmployee = files[file].jsonData[employee];
+          const nextFileData = files[file + 1].jsonData;
+          const matchedEmployee = nextFileData.find(
+            (secondEmployee) => currentEmployee.employeenumber === secondEmployee.employeenumber
+          );
+  
+          if (matchedEmployee && this.change(currentEmployee, matchedEmployee)) {
+            this.changes.push([currentEmployee, matchedEmployee]);
           }
         }
       }
-    }).unsubscribe();
-
-    this.print(String(this.changes))
+      console.log("found employees: ", this.changes);
+    });
   }
 
 
