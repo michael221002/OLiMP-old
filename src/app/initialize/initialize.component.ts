@@ -44,12 +44,20 @@ export class InitializeComponent {
     }
   }
 
-  startHistoryCreation(){
+  startHistoryCreation() {
     this.appData.setSpinner(true);
     this.initializeService.print(this.initializeService.sortFilesByDate());
     this.initializeService.print(this.initializeService.saveOldData());
-    this.initializeService.detectChanges();
-    this.appData.setSpinner(false);
+
+    this.initializeService.detectChanges().subscribe((changes) => {
+      console.log("found employees: ", changes);
+      // Do whatever you want with the 'changes' data here.
+      this.appData.setSpinner(false);
+    }, (error) => {
+      console.error("Error detecting changes:", error);
+      this.appData.openSnackbar(`There went something wrong ${error}`, 'okay');
+      this.appData.setSpinner(false);
+    });
   }
 
 

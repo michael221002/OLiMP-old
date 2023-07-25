@@ -111,27 +111,35 @@ export class InitializeService {
   //initialising context
   changes: any[] = [];
   detectChanges() {
-    this.getInitializeFiles().pipe(
-      // Do not process multiple times, only when new data is emitted.
-      distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
-    ).subscribe(files => {
-      this.changes = []; // Reset changes on each new data emission.
-  
-      for (let file = 0; file < files.length - 1; file++) {
-        for (let employee = 0; employee < files[file].jsonData.length; employee++) {
-          const currentEmployee = files[file].jsonData[employee];
-          const nextFileData = files[file + 1].jsonData;
-          const matchedEmployee = nextFileData.find(
-            (secondEmployee) => currentEmployee.employeenumber === secondEmployee.employeenumber
-          );
-  
-          if (matchedEmployee && this.change(currentEmployee, matchedEmployee)) {
-            this.changes.push([currentEmployee, matchedEmployee]);
-          }
+    return new Observable((observer) => {
+      const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
+      worker.onmessage = (event) => {
+        const message = event.data;
+        if (message.type === 'log') {
+          this.print(message.message); // Call the print function to update the webConsole array.
+        } else if (message.type === 'result') {
+          observer.next(message.changes);
+          observer.complete();
         }
-      }
-      console.log("found employees: ", this.changes);
+      };
+      worker.onerror = (error) => {
+        observer.error(error);
+        observer.complete();
+      };
+      worker.postMessage({ files: this.initializeFiles.value });
     });
+    /*
+    if (typeof Worker !== 'undefined') {
+      const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
+      worker.onmessage = ({ data }) => {
+        console.log(`page got message: ${data}`);
+      };
+      worker.postMessage('hello');
+    } else {
+      // Web workers are not supported in this environment.
+      // You should add a fallback so that your program still executes correctly.
+    }
+    */
   }
 
 
