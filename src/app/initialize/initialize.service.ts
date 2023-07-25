@@ -110,15 +110,28 @@ export class InitializeService {
 
   //initialising context
   changes: any[] = [];
-  detectChanges() {
+  detectChanges(): Observable<any> {
+    console.log(this.getInitializeFiles())
     return new Observable((observer) => {
       const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
+      const logs: any[] = []; // To store log messages received from the Web Worker.
+      
       worker.onmessage = (event) => {
         const message = event.data;
         if (message.type === 'log') {
-          this.print(message.message); // Call the print function to update the webConsole array.
+          logs.push(message.message);
         } else if (message.type === 'result') {
-          observer.next(message.changes);
+          const changes = message.changes;
+          // You can process the 'changes' array as required.
+          // For example, you can call another function to handle the changes.
+          this.handleChanges(changes);
+  
+          // Now, you can also use the 'logs' array to update the webConsole.
+          for (const logMessage of logs) {
+            this.print(logMessage); // Call the print function to update the webConsole array.
+          }
+          
+          observer.next(changes);
           observer.complete();
         }
       };
@@ -128,18 +141,12 @@ export class InitializeService {
       };
       worker.postMessage({ files: this.initializeFiles.value });
     });
-    /*
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
-      worker.onmessage = ({ data }) => {
-        console.log(`page got message: ${data}`);
-      };
-      worker.postMessage('hello');
-    } else {
-      // Web workers are not supported in this environment.
-      // You should add a fallback so that your program still executes correctly.
-    }
-    */
+  }
+  
+  // Function to handle the changes received from the Web Worker.
+  handleChanges(changes: any[]) {
+    // Perform any required actions with the 'changes' array here.
+    console.log("Changes received:", changes);
   }
 
 

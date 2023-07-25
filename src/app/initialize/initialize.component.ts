@@ -50,7 +50,6 @@ export class InitializeComponent {
     this.initializeService.print(this.initializeService.saveOldData());
 
     this.initializeService.detectChanges().subscribe((changes) => {
-      console.log("found employees: ", changes);
       // Do whatever you want with the 'changes' data here.
       this.appData.setSpinner(false);
     }, (error) => {
