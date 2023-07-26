@@ -1,5 +1,6 @@
 /// <reference lib="webworker" />
 
+import { changedData } from "../models/data-change.model";
 import { tableScema } from "../models/tableScema";
 
 function hasChanged(firstOne: tableScema, secOne: tableScema) {
@@ -13,14 +14,15 @@ function hasChanged(firstOne: tableScema, secOne: tableScema) {
 }
 
 function changeMessage(current: tableScema, next: tableScema) {
-  const changeMessages = [];
+  const changeData = [];
   const keys = Object.keys(current);
   for (const key of keys) {
     if (current[key] !== next[key]) {
-      changeMessages.push(`${key} changed from "${current[key]}" to "${next[key]}"`);
+      const value: changedData = { keyName: key, oldKey: current[key], newKey: next[key] };
+      changeData.push(value);
     }
   }
-  return changeMessages.join(", ");
+  return changeData;
 }
 
 addEventListener('message', ({ data }) => {
@@ -36,11 +38,11 @@ addEventListener('message', ({ data }) => {
       );
 
       if (matchedEmployee && hasChanged(currentEmployee, matchedEmployee)) {
-        const changeMessageStr = changeMessage(currentEmployee, matchedEmployee);
-        changes.push([currentEmployee, changeMessageStr]);
+        const changeData = changeMessage(currentEmployee, matchedEmployee);
+        changes.push([currentEmployee, changeData]);
 
         // Hier senden wir die Log-Nachrichten an den Hauptthread. with log
-        //postMessage({ type: 'log', message: `${currentEmployee.user_principal_name}: ${changeMessageStr}` });
+        postMessage({ type: 'log', message: `${currentEmployee.user_principal_name}: ${changeData}` });
       }
     }
   }

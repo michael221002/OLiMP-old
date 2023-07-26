@@ -44,6 +44,10 @@ export class InitializeComponent {
     }
   }
 
+  getFileNames(){
+    return this.initializeService.getFiles();
+  }
+
   startHistoryCreation() {
     this.appData.setSpinner(true);
     this.initializeService.print(this.initializeService.sortFilesByDate());

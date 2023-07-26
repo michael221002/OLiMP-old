@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { InitializeComponent } from './initialize.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
+import {MatChipsModule} from '@angular/material/chips';
 
 const routes: Routes = [
   { path: '', component: InitializeComponent }
@@ -15,7 +16,8 @@ const routes: Routes = [
     CommonModule, // Verwende das CommonModule anstelle von BrowserModule
     RouterModule.forChild(routes),
     MatProgressBarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatChipsModule
   ],
 })
 export class InitializeModule {}

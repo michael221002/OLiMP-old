@@ -62,8 +62,16 @@
       height: calc(100vh - 76px - 64px);
       background-color: #325881;
 
+      .chipContainer {
+        margin: 20px 60px 20px 60px;
+        display: flex;
+        flex-wrap: wrap;
+        gap:5px;
+        min-height: 70px;
+      }
+
       .consoleContainer {
-        margin: 60px;
+        margin: 60px 60px 60px 60px;
         width: auto;
         height: calc(100% - 4px - 120px - 40px);
         background-color: #17293b;

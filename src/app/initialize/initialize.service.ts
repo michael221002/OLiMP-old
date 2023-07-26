@@ -22,6 +22,11 @@ export class InitializeService {
     return this.webConsole;
   }
 
+  getFiles(): string[] {
+    const files = this.initializeFiles.value;
+    return files.map(file => file.fileName);
+  }
+
   print(message: string) {
     this.webConsole.push(message);
   }
@@ -128,9 +133,9 @@ export class InitializeService {
           this.handleChanges(changes);
 
           // Jetzt können Sie auch das 'logs'-Array verwenden, um die webConsole zu aktualisieren.
-          for (const logMessage of logs) {
-            this.print(logMessage); // Rufen Sie die print-Funktion auf, um das webConsole-Array zu aktualisieren.
-          }
+          /*for (const logMessage of logs) {
+            console.log(JSON.stringify(logMessage)); // Rufen Sie die print-Funktion
+          }*/
 
           observer.next(changes);
           observer.complete();
@@ -186,8 +191,13 @@ export class InitializeService {
   // Function to handle the changes received from the Web Worker.
   handleChanges(changes: any[]) {
     // Führen Sie hier die erforderlichen Aktionen mit dem 'changes'-Array aus.
-    this.print("fount: " + changes.length + " changes"); 
-    console.log("Changes received:", changes);
+    this.print("fount: " + changes.length + " changes");
+    console.log(changes);
+    for (let i of changes){
+      for (let j of i[1]){
+        this.print(i[0].user_principal_name + "[" + j.keyName + "]: " + j.oldKey + " -> " + j.newKey)
+      }
+    }
   }
 
 

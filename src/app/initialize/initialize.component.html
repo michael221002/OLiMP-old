@@ -21,6 +21,14 @@
           [value]="getProgressbarState()"
           [bufferValue]="100">
       </mat-progress-bar>
+      <!--<div class="chipContainer">
+        <mat-chip-row *ngFor="let file of getFileNames()">
+          {{file}}
+          <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </div>-->
       <div class="consoleContainer">
         <ng-container *ngFor="let i of getWebConsole()">
           <p>{{i}}</p>
