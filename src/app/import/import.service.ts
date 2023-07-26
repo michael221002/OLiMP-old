@@ -38,30 +38,35 @@ export class ImportService {
 
   newFileImport(evt: any): Observable<NewFile> {
     const file = evt.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const bstr: string = e.target.result;
-      const workbook: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-      const worksheetName: string = workbook.SheetNames[0];
-      const worksheet: XLSX.WorkSheet = workbook.Sheets[worksheetName];
-      const jsonData: tableScema[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
 
-      // Konvertiere die Werte von employeenumber, manager_employee_number und is_employed in Nummern
-      for (const data of jsonData) {
-        data.employeenumber = Number(data.employeenumber);
-        data.manager_employee_number = Number(data.manager_employee_number);
-        data.is_employed = Number(data.is_employed);
-      }
+    return new Observable<NewFile>((observer) => {
+      // Create a new web worker
+      const worker = new Worker(new URL('./import-file.worker', import.meta.url));
 
-      const displayedColumns = jsonData.length > 0 ? Object.keys(jsonData[0]) : [];
-      const result: NewFile = { jsonData, displayedColumns };
+      // Listen to messages from the web worker
+      worker.onmessage = (event) => {
+        const result: NewFile = event.data;
+        this.newFile.next({
+          ...this.newFile.value,
+          jsonData: result.jsonData,
+          displayedColumns: result.displayedColumns,
+          fileName: file.name
+        });
+        observer.next(result);
+        observer.complete();
+        worker.terminate(); // Terminate the web worker after use
+      };
 
-      // Speichere den Dateinamen im ImportServiceModel
-      this.newFile.next({ ...this.newFile.value, jsonData, displayedColumns, fileName: file.name });
-    };
-    reader.readAsBinaryString(file);
+      // Handle errors from the web worker
+      worker.onerror = (error) => {
+        observer.error(error);
+        observer.complete();
+        worker.terminate(); // Terminate the web worker in case of an error
+      };
 
-    return this.newFile.asObservable();
+      // Start the web worker by passing the file to it
+      worker.postMessage({ file });
+    });
   }
 
   getNewFile(): Observable<NewFile> {
