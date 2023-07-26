@@ -46,7 +46,7 @@ addEventListener('message', ({ data }) => {
         changes.push([currentEmployee, changeData]);
 
         // Hier senden wir die Log-Nachrichten an den Hauptthread. with log
-        postMessage({ type: 'log', message: `${currentEmployee.user_principal_name}: ${changeData}` });
+        //postMessage({ type: 'log', message: `${currentEmployee.user_principal_name}: ${changeData}` });
       }
     }
   }
