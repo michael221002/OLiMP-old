@@ -23,7 +23,6 @@ export class InitializeComponent {
   }
 
   onFilesSelected(event: Event) {
-    this.appData.setSpinner(true);
     const inputElement = event.target as HTMLInputElement;
     if (inputElement.files) {
       const filesArray = Array.from(inputElement.files);
@@ -34,12 +33,12 @@ export class InitializeComponent {
         this.appData.openSnackbar('Files imported successfully', 'okay');
         this.initializeService.print('Files imported successfully')
         this.initializeService.getInitializeFiles().subscribe();
-        this.appData.setSpinner(false);
+        
       }, (error) => {
         console.error("Error importing files:", error);
         this.appData.openSnackbar(`There went something wrong ${error}`, 'okay');
         this.initializeService.print(`There went something wrong ${error}`)
-        this.appData.setSpinner(false);
+        
       });
     }
   }

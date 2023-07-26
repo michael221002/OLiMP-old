@@ -3,13 +3,16 @@ import { BehaviorSubject, Observable, distinctUntilChanged, map } from 'rxjs';
 import { tableScema } from '../models/tableScema';
 import * as XLSX from 'xlsx';
 import { InitializeFiles } from '../models/initialize-service.model';
+import { AppDataService } from '../services/app-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InitializeService {
 
-  constructor() {}
+  constructor(
+    private appData: AppDataService
+  ) {}
 
   initializeFiles: BehaviorSubject<InitializeFiles[]> = new BehaviorSubject<InitializeFiles[]>([]);
 
@@ -32,6 +35,7 @@ export class InitializeService {
   }
 
   newFileImport(file: File): Observable<InitializeFiles> {
+    this.appData.setSpinner(true);
     this.ProgressBarState = 0;
     const reader = new FileReader();
 
@@ -46,6 +50,7 @@ export class InitializeService {
     }
 
     return new Observable<InitializeFiles>((observer) => {
+      this.appData.setSpinner(true);
       reader.onload = (e: any) => {
         const bstr: string = e.target.result;
         const workbook: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
@@ -74,11 +79,14 @@ export class InitializeService {
         this.initializeFiles.next(currentFiles);
         observer.next(result);
         observer.complete();
+        this.appData.setSpinner(false);
       }; 
       reader.onerror = (error) => {
         observer.error(error);
+        this.appData.setSpinner(false);
       };
       reader.readAsBinaryString(file);
+      this.appData.setSpinner(false);
     });
   }
 
