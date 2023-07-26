@@ -124,7 +124,7 @@ export class InitializeService {
   //initialising context
   changes: any[] = [];
   detectChanges(): Observable<any> {
-    console.log(this.getInitializeFiles())
+    //console.log(this.getInitializeFiles())
     return new Observable((observer) => {
       const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
       const logs: any[] = []; // Neues Array, um die Log-Nachrichten zu speichern.
@@ -200,7 +200,7 @@ export class InitializeService {
   handleChanges(changes: any[]) {
     // Führen Sie hier die erforderlichen Aktionen mit dem 'changes'-Array aus.
     //this.print("fount: " + changes.length + " changes");
-    console.log(changes);
+    //console.log(changes);
     //for (let i of changes){
     //  for (let j of i[1]){
     //    this.print(i[0].user_principal_name + "[" + j.keyName + "]: " + j.oldKey + " -> " + j.newKey)
