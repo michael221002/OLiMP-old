@@ -50,10 +50,10 @@ export class InitializeComponent {
   startHistoryCreation() {
     this.appData.setSpinner(true);
     this.initializeService.print(this.initializeService.sortFilesByDate());
-    this.initializeService.print(this.initializeService.saveOldData());
 
     this.initializeService.detectChanges().subscribe((changes) => {
       // Do whatever you want with the 'changes' data here.
+      this.appData.openSnackbar("successfully created History", 'okay');
       this.appData.setSpinner(false);
     }, (error) => {
       console.error("Error detecting changes:", error);
