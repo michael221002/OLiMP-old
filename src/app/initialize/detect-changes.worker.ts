@@ -16,9 +16,11 @@ function hasChanged(firstOne: tableScema, secOne: tableScema) {
 function changeMessage(current: tableScema, next: tableScema) {
   const changeData = [];
   const keys = Object.keys(current);
+  const changeDate = new Date(); // Aktuelles Datum und Uhrzeit
+
   for (const key of keys) {
     if (current[key] !== next[key]) {
-      const value: changedData = { keyName: key, oldKey: current[key], newKey: next[key] };
+      const value: changedData = { keyName: key, oldKey: current[key], newKey: next[key], changeDate: changeDate };
       changeData.push(value);
     }
   }
@@ -30,9 +32,11 @@ addEventListener('message', ({ data }) => {
   const changes = [];
 
   for (let file = 0; file < files.length - 1; file++) {
-    for (let employee = 0; employee < files[file].jsonData.length; employee++) {
-      const currentEmployee = files[file].jsonData[employee];
-      const nextFileData = files[file + 1].jsonData;
+    const currentFileData = files[file].jsonData;
+    const nextFileData = files[file + 1].jsonData;
+
+    for (let employee = 0; employee < currentFileData.length; employee++) {
+      const currentEmployee = currentFileData[employee];
       const matchedEmployee = nextFileData.find(
         (secondEmployee: tableScema) => currentEmployee.employeenumber === secondEmployee.employeenumber
       );
