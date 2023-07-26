@@ -124,15 +124,13 @@ export class ImportComponent implements OnInit {
   }
 
   onFileChange(evt: any) {
+    this.appData.setSpinner(true);
     this.NewFile.searchValue = [];
     this.NewFile.filterValue = [];
     this.importData.newFileImport(evt).subscribe((data: NewFile) => {
-      this.setLoadingStatus(true);
-      this.appData.setSpinner(true);
       this.processNewFile(data);
 
       timer(500).subscribe(() => {
-        this.setLoadingStatus(false);
         this.appData.setSpinner(false);
       });
     });
