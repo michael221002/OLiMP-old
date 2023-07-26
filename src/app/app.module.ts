@@ -19,6 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Importiere M
 //services
 import { AppDataService } from './services/app-data.service';
 import { ImportService } from './import/import.service';
+import { InitializeService } from './initialize/initialize.service';
 
 
 
@@ -38,7 +39,7 @@ import { ImportService } from './import/import.service';
     HttpClientModule,
     MatSnackBarModule
   ],
-  providers: [AppDataService, ImportService],
+  providers: [AppDataService, ImportService, InitializeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
