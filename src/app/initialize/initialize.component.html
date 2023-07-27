@@ -12,6 +12,7 @@
         </div>
         <div class="content">
             <button mat-raised-button color="primary" (click)="startHistoryCreation()">Create History</button>
+            <button mat-raised-button color="primary" *ngIf="getHistoryState()">Save History</button>
         </div>
     </div>
     <div class="mainContent">

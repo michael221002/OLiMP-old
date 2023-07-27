@@ -14,6 +14,10 @@ export class InitializeComponent {
   ngOnInit(): void {
   }
 
+  getHistoryState():boolean {
+    return this.initializeService.historyState;
+  }
+
   getProgressbarState(): string {
     return String(this.initializeService.ProgressBarState);
   }

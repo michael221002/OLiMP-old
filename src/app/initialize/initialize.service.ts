@@ -18,6 +18,7 @@ export class InitializeService {
 
 
   webConsole: string[] = [];
+  historyState: boolean = false;
 
   ProgressBarState: number = 0;
 
@@ -199,8 +200,10 @@ export class InitializeService {
   // Function to handle the changes received from the Web Worker.
   handleChanges(changes: any[]) {
     // Führen Sie hier die erforderlichen Aktionen mit dem 'changes'-Array aus.
-    //this.print("fount: " + changes.length + " changes");
-    //console.log(changes);
+    this.print("history restored successfully");
+    this.print("fount: " + changes.length + " changes");
+    this.historyState = true;
+    console.log(changes);
     //for (let i of changes){
     //  for (let j of i[1]){
     //    this.print(i[0].user_principal_name + "[" + j.keyName + "]: " + j.oldKey + " -> " + j.newKey)
