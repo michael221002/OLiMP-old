@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\Projekte\\OLiMP - Copy\\webapi\\webapi.csproj": {}
+    "C:\\Dev\\Projekte\\OLiMP\\webapi\\webapi.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\Projekte\\OLiMP - Copy\\webapi\\webapi.csproj": {
+    "C:\\Dev\\Projekte\\OLiMP\\webapi\\webapi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\Projekte\\OLiMP - Copy\\webapi\\webapi.csproj",
+        "projectUniqueName": "C:\\Dev\\Projekte\\OLiMP\\webapi\\webapi.csproj",
         "projectName": "webapi",
-        "projectPath": "C:\\Dev\\Projekte\\OLiMP - Copy\\webapi\\webapi.csproj",
+        "projectPath": "C:\\Dev\\Projekte\\OLiMP\\webapi\\webapi.csproj",
         "packagesPath": "C:\\Users\\michael.ludwig\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\Projekte\\OLiMP - Copy\\webapi\\obj\\",
+        "outputPath": "C:\\Dev\\Projekte\\OLiMP\\webapi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\michael.ludwig\\AppData\\Roaming\\NuGet\\NuGet.Config",
