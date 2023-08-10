@@ -23,6 +23,8 @@ export class AppComponent implements OnInit {
     return this.appData.getSpinner();
   }
 
+  //test
+
   constructor(
     private appData: AppDataService, 
     private router: Router,
