@@ -203,12 +203,16 @@ export class InitializeService {
     this.print("history restored successfully");
     this.print("fount: " + changes.length + " changes");
     this.historyState = true;
-    console.log(changes);
+    this.changes = changes;
     //for (let i of changes){
     //  for (let j of i[1]){
     //    this.print(i[0].user_principal_name + "[" + j.keyName + "]: " + j.oldKey + " -> " + j.newKey)
     //  }
     //}
+  }
+
+  getChanges(): any[] {
+    return this.changes;
   }
 
 

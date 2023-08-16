@@ -1,6 +1,6 @@
 export interface changedData {
-    keyName: string;
-    oldKey: string;
-    newKey: string;
-    changeDate: Date;
+    KeyName: string;
+    OldKey: string;
+    NewKey: string;
+    ChangeDate: string;
 }

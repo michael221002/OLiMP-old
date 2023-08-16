@@ -10,5 +10,6 @@ namespace webapi.Data
         //Tables
         public DbSet<SuperHero> SuperHeroes => Set<SuperHero>();
         public DbSet<tableShema> CurrentState => Set<tableShema>();
+        public DbSet<EmployeeChange> EmployeeChanges => Set<EmployeeChange>();
     }
 }

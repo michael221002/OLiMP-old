@@ -14,13 +14,13 @@ function hasChanged(firstOne: tableScema, secOne: tableScema) {
 }
 
 function changeMessage(current: tableScema, next: tableScema) {
-  const changeData = [];
+  const changeData: changedData[] = [];
   const keys = Object.keys(current);
-  const changeDate = new Date(); // Aktuelles Datum und Uhrzeit
+  const changeDate = String(new Date()); // Aktuelles Datum und Uhrzeit
 
   for (const key of keys) {
     if (current[key] !== next[key]) {
-      const value: changedData = { keyName: key, oldKey: current[key], newKey: next[key], changeDate: changeDate };
+      const value: changedData = { KeyName: key, OldKey: current[key], NewKey: next[key], ChangeDate: changeDate };
       changeData.push(value);
     }
   }
@@ -42,7 +42,7 @@ addEventListener('message', ({ data }) => {
       );
 
       if (matchedEmployee && hasChanged(currentEmployee, matchedEmployee)) {
-        const changeData = changeMessage(currentEmployee, matchedEmployee);
+        let changeData = changeMessage(currentEmployee, matchedEmployee);
         changes.push([currentEmployee, changeData]);
 
         // Hier senden wir die Log-Nachrichten an den Hauptthread. with log

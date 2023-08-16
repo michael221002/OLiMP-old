@@ -5,4 +5,4 @@ export interface InitializeFiles {
     displayedColumns: string[];
     fileName: string;
     fileDate: Date; // Hinzugefügt
-  }
+}
