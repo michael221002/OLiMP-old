@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppDataService } from '../services/app-data.service';
-import { NewFile } from '../models/newFile';
+import { NewFile } from '../models/newFile.model';
 import { timer } from 'rxjs';
 import { ImportService } from './import.service';
 import { MatTableDataSource } from '@angular/material/table';

@@ -1,4 +1,4 @@
-import { tableScema } from "./tableScema";
+import { tableScema } from "./table-Scema.model";
 
 export interface ImportServiceModel {
   jsonData: tableScema[];

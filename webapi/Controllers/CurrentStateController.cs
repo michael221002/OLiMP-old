@@ -23,21 +23,18 @@ namespace webapi.Controllers
             return Ok(await _context.CurrentState.ToListAsync());
         }
 
-        [HttpPost("singleEmployee")]
-        public async Task<ActionResult<List<tableShema>>> AddEmployeeToCurrentState(tableShema employee)
-        {
-            _context.CurrentState.Add(employee);
-            await _context.SaveChangesAsync();
-
-            return Ok(await _context.CurrentState.ToListAsync());
-        }
-
         [HttpPost]
         public async Task<ActionResult<List<tableShema>>> AddEmployeesToCurrentState(List<tableShema> employees)
         {
             // Alle vorhandenen Employees in der Datenbank löschen
             var existingEmployees = await _context.CurrentState.ToListAsync();
             _context.CurrentState.RemoveRange(existingEmployees);
+
+            // Neue Employees zur Datenbank hinzufügen und GUIDs generieren
+            foreach (var employee in employees)
+            {
+                employee.GUID = Guid.NewGuid(); // Generiere eine neue GUID für jeden Mitarbeiter
+            }
 
             // Neue Employees zur Datenbank hinzufügen
             _context.CurrentState.AddRange(employees);

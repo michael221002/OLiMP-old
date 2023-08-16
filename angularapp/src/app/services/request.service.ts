@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { ImportService } from '../import/import.service';
 import { AppDataService } from './app-data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tableScema } from '../models/tableScema';
+import { tableScema } from '../models/table-Scema.model';
 import { Observable, catchError } from 'rxjs';
-import { saveChange } from '../models/saveChanges.model';
+import { saveChange } from '../models/save-changes.model';
+import { department } from '../models/departments.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,12 @@ export class RequestService {
   }
 
   //history Endpoint
-  private baseUrl = 'https://localhost:7169/api/EmployeeChanges';
   saveEmployeeChanges(changes: saveChange[]): Observable<any> {
-    return this.http.post(this.baseUrl, changes, this.httpOptions);
+    let baseUrl = 'https://localhost:7169/api/EmployeeChanges';
+    return this.http.post(baseUrl, changes, this.httpOptions);
+  }
+  saveDepartements(departements: department[]): Observable<any> {
+    let baseUrl = 'https://localhost:7169/api/EmployeeChanges/departements'
+    return this.http.post(baseUrl, departements, this.httpOptions);
   }
 }

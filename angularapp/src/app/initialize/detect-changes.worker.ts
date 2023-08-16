@@ -1,7 +1,9 @@
 /// <reference lib="webworker" />
 
 import { changedData } from "../models/data-change.model";
-import { tableScema } from "../models/tableScema";
+import { InitializeFiles } from "../models/initialize-service.model";
+import { tableScema } from "../models/table-Scema.model";
+import { preChanges } from "../models/worker-changes.model";
 
 function hasChanged(firstOne: tableScema, secOne: tableScema) {
   const keys = Object.keys(firstOne);
@@ -13,14 +15,13 @@ function hasChanged(firstOne: tableScema, secOne: tableScema) {
   return false;
 }
 
-function changeMessage(current: tableScema, next: tableScema) {
+function changeMessage(current: tableScema, next: tableScema, date: string) {
   const changeData: changedData[] = [];
   const keys = Object.keys(current);
-  const changeDate = String(new Date()); // Aktuelles Datum und Uhrzeit
 
   for (const key of keys) {
     if (current[key] !== next[key]) {
-      const value: changedData = { KeyName: key, OldKey: current[key], NewKey: next[key], ChangeDate: changeDate };
+      const value: changedData = { KeyName: key, OldKey: current[key], NewKey: next[key], ChangeDate: date };
       changeData.push(value);
     }
   }
@@ -28,22 +29,25 @@ function changeMessage(current: tableScema, next: tableScema) {
 }
 
 addEventListener('message', ({ data }) => {
-  const files = data.files;
-  const changes = [];
+  console.log(data);
+  const files: InitializeFiles[] = data.files;
+  const changes: preChanges[] = [];
 
   for (let file = 0; file < files.length - 1; file++) {
-    const currentFileData = files[file].jsonData;
-    const nextFileData = files[file + 1].jsonData;
+    const currentFileData: tableScema[] = files[file].jsonData;
+    const nextFileData: tableScema[] = files[file + 1].jsonData;
+     //nimmt also das Datum der nächsten Datei 
 
     for (let employee = 0; employee < currentFileData.length; employee++) {
-      const currentEmployee = currentFileData[employee];
-      const matchedEmployee = nextFileData.find(
+      let currentEmployee: tableScema= currentFileData[employee];
+      let matchedEmployee: tableScema | undefined = nextFileData.find(
         (secondEmployee: tableScema) => currentEmployee.employeenumber === secondEmployee.employeenumber
       );
+      
 
       if (matchedEmployee && hasChanged(currentEmployee, matchedEmployee)) {
-        let changeData = changeMessage(currentEmployee, matchedEmployee);
-        changes.push([currentEmployee, changeData]);
+        let changeData = changeMessage(currentEmployee, matchedEmployee, String(files[file + 1].fileDate));
+        changes.push(new preChanges(currentEmployee, changeData));
 
         // Hier senden wir die Log-Nachrichten an den Hauptthread. with log
         //postMessage({ type: 'log', message: `${currentEmployee.user_principal_name}: ${changeData}` });

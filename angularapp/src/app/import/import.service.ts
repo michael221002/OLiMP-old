@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { NewFile } from '../models/newFile';
+import { NewFile } from '../models/newFile.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ImportServiceModel } from '../models/import-service.model';
-import { tableScema } from '../models/tableScema';
+import { tableScema } from '../models/table-Scema.model';
 
 @Injectable({
   providedIn: 'root'

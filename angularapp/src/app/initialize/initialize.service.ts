@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, distinctUntilChanged, map } from 'rxjs';
-import { tableScema } from '../models/tableScema';
+import { tableScema } from '../models/table-Scema.model';
 import * as XLSX from 'xlsx';
 import { InitializeFiles } from '../models/initialize-service.model';
 import { AppDataService } from '../services/app-data.service';
+import { saveChange } from '../models/save-changes.model';
+import { RequestService } from '../services/request.service';
+import { preChanges } from '../models/worker-changes.model';
+import { department } from '../models/departments.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,8 @@ import { AppDataService } from '../services/app-data.service';
 export class InitializeService {
 
   constructor(
-    private appData: AppDataService
+    private appData: AppDataService,
+    private requestService: RequestService
   ) {}
 
   initializeFiles: BehaviorSubject<InitializeFiles[]> = new BehaviorSubject<InitializeFiles[]>([]);
@@ -123,12 +128,12 @@ export class InitializeService {
   }
 
   //initialising context
-  changes: any[] = [];
-  detectChanges(): Observable<any> {
+  changes: preChanges[] = [];
+  detectChanges(): Observable<preChanges> {
     //console.log(this.getInitializeFiles())
     return new Observable((observer) => {
       const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
-      const logs: any[] = []; // Neues Array, um die Log-Nachrichten zu speichern.
+      const logs: string[] = []; // Neues Array, um die Log-Nachrichten zu speichern.
 
       worker.onmessage = (event) => {
         const message = event.data;
@@ -198,7 +203,7 @@ export class InitializeService {
   */
 
   // Function to handle the changes received from the Web Worker.
-  handleChanges(changes: any[]) {
+  handleChanges(changes: preChanges[]) {
     // Führen Sie hier die erforderlichen Aktionen mit dem 'changes'-Array aus.
     this.print("history restored successfully");
     this.print("fount: " + changes.length + " changes");
@@ -211,12 +216,86 @@ export class InitializeService {
     //}
   }
 
-  getChanges(): any[] {
+  getChanges(): preChanges[] {
     return this.changes;
   }
 
 
   saveOldData(){
     return 'Save Data in Database';
+  }
+
+  saveEmployeeChanges() {
+    this.appData.setSpinner(true);
+
+    const changes = this.getChanges();
+
+    let saveChanges: saveChange[] = [];
+    for (let i of changes){
+      for (let x of i.changedData){
+        let value: saveChange = {
+          employeeNumber: i.employee.employeenumber,
+          keyName: x.KeyName,
+          oldKey: String(x.OldKey),
+          newKey: String(x.NewKey),
+          changeDate: x.ChangeDate
+      }
+        saveChanges.push(value);
+      }
+    }
+    
+    this.requestService.saveEmployeeChanges(saveChanges).subscribe(
+      data => {
+        this.appData.openSnackbar(data.message, 'okay');
+        this.print(data.message);
+        this.appData.setSpinner(false);
+      },
+      error => {
+        this.appData.openSnackbar(error.message, 'okay');
+        this.print(error.message);
+        this.appData.setSpinner(false);
+      }
+    );
+  }
+
+  saveDepartements(){
+    this.appData.setSpinner(true);
+    let departements: department[] = [];
+    for (let i of this.departments){
+      departements.push(new department(i));
+    }
+    this.requestService.saveDepartements(departements).subscribe(
+      data => {
+        this.appData.openSnackbar(data.message, 'okay');
+        this.print(data.message);
+        this.appData.setSpinner(false);
+      },
+      error => {
+        this.appData.openSnackbar(error.message, 'okay');
+        this.print(error.message);
+        this.appData.setSpinner(false);
+      }
+    );;
+  }
+
+  departments: string[] = [];
+
+  showForDepartements() {
+    this.appData.setSpinner(true);
+    const files = this.initializeFiles.value;
+  
+    for (const file of files) {
+      const jsonData = file.jsonData;
+      for (const data of jsonData) {
+        if (!this.departments.includes(data.department)) {
+          this.departments.push(data.department);
+        }
+      }
+    }
+
+    this.print("successfully created list of departments")
+    this.print("found: " + this.departments)
+
+    this.appData.setSpinner(false);
   }
 }

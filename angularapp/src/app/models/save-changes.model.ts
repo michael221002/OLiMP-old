@@ -12,5 +12,4 @@ export class saveChange {
         this.newKey = newKey;
         this.changeDate = changeDate;
     }
-  }
-  
+}

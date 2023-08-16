@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-interface response {
-  item: any;
-  value: string;
-}
 
 @Injectable({
   providedIn: 'root'

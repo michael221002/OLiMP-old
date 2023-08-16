@@ -3,6 +3,7 @@
     public class tableShema
     {
         public int Id { get; set; }
+        public Guid GUID { get; set; }
         public int employeenumber { get; set; }
         public string? email { get; set; }
         public string? user_principal_name { get; set; }

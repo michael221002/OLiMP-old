@@ -46,5 +46,43 @@ namespace webapi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
             }
         }
+
+        [HttpPost("departements")]
+        public async Task<ActionResult<List<departementsModel>>> PostDepartements(List<departementsModel> departements)
+        {
+            if (departements == null || departements.Count == 0)
+            {
+                return BadRequest("No departements provided.");
+            }
+
+            try
+            {
+                var existingDepartements = await _context.Departements.ToListAsync();
+
+                foreach (var newDepartement in departements)
+                {
+                    var existingDepartement = existingDepartements.FirstOrDefault(d => d.department == newDepartement.department);
+
+                    if (existingDepartement == null)
+                    {
+                        foreach (var departement in departements)
+                        {
+                            departement.GUID = Guid.NewGuid(); // Generiere eine neue GUID für jeden Mitarbeiter
+                        }
+
+                        _context.Departements.Add(newDepartement);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                var response = new { Message = "Departements have been successfully updated." };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 }
