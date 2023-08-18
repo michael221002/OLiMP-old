@@ -46,7 +46,7 @@ addEventListener('message', ({ data }) => {
       
 
       if (matchedEmployee && hasChanged(currentEmployee, matchedEmployee)) {
-        let changeData = changeMessage(currentEmployee, matchedEmployee, String(files[file + 1].fileDate));
+        let changeData = changeMessage(currentEmployee, matchedEmployee, String(new Date()));
         changes.push(new preChanges(currentEmployee, changeData));
 
         // Hier senden wir die Log-Nachrichten an den Hauptthread. with log

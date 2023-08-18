@@ -42,13 +42,13 @@ export class InitializeComponent {
   
       forkJoin(observables).subscribe((data) => {
         this.appData.openSnackbar('Files imported successfully', 'okay');
-        this.initializeService.print('Files imported successfully')
+        this.initializeService.print('[+] Files imported successfully')
         this.initializeService.getInitializeFiles().subscribe();
         
       }, (error) => {
         console.error("Error importing files:", error);
         this.appData.openSnackbar(`There went something wrong ${error}`, 'okay');
-        this.initializeService.print(`There went something wrong ${error}`)
+        this.initializeService.print(`[!] There went something wrong ${error}`)
         
       });
     }
@@ -64,11 +64,11 @@ export class InitializeComponent {
 
     this.initializeService.detectChanges().subscribe((changes) => {
       // Do whatever you want with the 'changes' data here.
-      this.appData.openSnackbar("successfully created History", 'okay');
+      this.appData.openSnackbar("[+] successfully created History", 'okay');
       this.appData.setSpinner(false);
     }, (error) => {
       console.error("Error detecting changes:", error);
-      this.appData.openSnackbar(`There went something wrong ${error}`, 'okay');
+      this.appData.openSnackbar(`[!] There went something wrong ${error}`, 'okay');
       this.appData.setSpinner(false);
     });
 

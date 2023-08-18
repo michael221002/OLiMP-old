@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using webapi.Data;
 using webapi.models;
 
@@ -51,7 +52,8 @@ namespace webapi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<SuperHero>>> DeleteSuperHero(int id)
+        public async Task<ActionResult<List<SuperHero>>> DeleteSuperHero([Range(1, 100, ErrorMessage = "The id must be between 1 and 100.")]
+                                             int id)
         {
             var dbHero = await _context.SuperHeroes.FindAsync(id);
             if (dbHero == null)

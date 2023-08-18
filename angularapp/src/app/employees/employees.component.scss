@@ -1,0 +1,41 @@
+.main {
+    width: auto;
+    height: calc(100vh - 64px);
+    background-color: #325881;
+
+    .toolbar {
+        width: auto;
+        height: auto;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #24405d;
+
+        .content {
+            min-width: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      
+            .spinner {
+              height: 10px;
+              width: auto;
+            }
+      
+            input {
+              width: 300px;
+              padding: 15px;
+              font-size: 20px;
+              border-radius: 10px;
+              border: none;
+              transition: all .09s linear;
+              &:focus {
+                outline: none;
+                border-color: #17293b;
+                box-shadow: 0 0 20px 20px #17293b;
+              }
+            }
+        }
+    }
+}

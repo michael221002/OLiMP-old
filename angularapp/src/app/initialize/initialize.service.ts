@@ -80,7 +80,7 @@ export class InitializeService {
 
         // Füge die Datei im Array hinzu
         const currentFiles = [...this.initializeFiles.value, result];
-        this.print("successfully imported " + file.name);
+        this.print("[+] successfully imported " + file.name);
 
         this.initializeFiles.next(currentFiles);
         observer.next(result);
@@ -205,8 +205,8 @@ export class InitializeService {
   // Function to handle the changes received from the Web Worker.
   handleChanges(changes: preChanges[]) {
     // Führen Sie hier die erforderlichen Aktionen mit dem 'changes'-Array aus.
-    this.print("history restored successfully");
-    this.print("fount: " + changes.length + " changes");
+    this.print("[+] history restored successfully");
+    this.print("[i] fount: " + changes.length + " changes");
     this.historyState = true;
     this.changes = changes;
     //for (let i of changes){
@@ -247,12 +247,12 @@ export class InitializeService {
     this.requestService.saveEmployeeChanges(saveChanges).subscribe(
       data => {
         this.appData.openSnackbar(data.message, 'okay');
-        this.print(data.message);
+        this.print('[+] ' + data.message);
         this.appData.setSpinner(false);
       },
       error => {
         this.appData.openSnackbar(error.message, 'okay');
-        this.print(error.message);
+        this.print('[-] ' + error.message);
         this.appData.setSpinner(false);
       }
     );
@@ -267,12 +267,12 @@ export class InitializeService {
     this.requestService.saveDepartements(departements).subscribe(
       data => {
         this.appData.openSnackbar(data.message, 'okay');
-        this.print(data.message);
+        this.print('[+] ' + data.message);
         this.appData.setSpinner(false);
       },
       error => {
         this.appData.openSnackbar(error.message, 'okay');
-        this.print(error.message);
+        this.print('[!] ' + error.message);
         this.appData.setSpinner(false);
       }
     );;
@@ -293,8 +293,8 @@ export class InitializeService {
       }
     }
 
-    this.print("successfully created list of departments")
-    this.print("found: " + this.departments)
+    this.print("[+] successfully created list of departments")
+    this.print("[i] found: " + this.departments)
 
     this.appData.setSpinner(false);
   }
