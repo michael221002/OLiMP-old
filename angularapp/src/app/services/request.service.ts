@@ -6,6 +6,7 @@ import { tableScema } from '../models/table-Scema.model';
 import { Observable, catchError } from 'rxjs';
 import { saveChange } from '../models/save-changes.model';
 import { department } from '../models/departments.model';
+import { nameList } from '../employees/employeesServiceData.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,11 @@ export class RequestService {
   saveDepartements(departements: department[]): Observable<any> {
     let baseUrl = 'https://localhost:7169/api/EmployeeChanges/departements'
     return this.http.post(baseUrl, departements, this.httpOptions);
+  }
+
+  //selectEmployee Endpoint
+  getEmployeeNames(): Observable<nameList[]> {
+    let baseUrl = 'https://localhost:7169/api/SelectEmployee';
+    return this.http.get<nameList[]>(baseUrl);
   }
 }
