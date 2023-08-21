@@ -2,23 +2,11 @@
     <div class="toolbar">
         <div class="content"></div>
         <div class="content" style="display: flex; align-items: flex-end; flex-direction: row; gap:5px;">
-            <form class="example-form">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Number</mat-label>
-                  <input type="text"
-                         placeholder="Pick one"
-                         aria-label="Number"
-                         matInput
-                         [formControl]="myControl"
-                         [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                      {{option}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-            </form>
+            <input (keyup)="searchFor($event)" placeholder="search">
         </div>
         <div class="content"></div>
+    </div>
+    <div class="cardContainer" *ngFor="let emplyoee of geReqData() | slice:0:5">
+        <app-employee-card [employeeReqData]="emplyoee"></app-employee-card>
     </div>
 </div>

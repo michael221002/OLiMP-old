@@ -17,11 +17,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
+            input {
+              width: 300px;
+              padding: 15px;
+              font-size: 20px;
+              border-radius: 10px;
+              border: none;
+              transition: all .09s linear;
+              &:focus {
+                outline: none;
+                border-color: #17293b;
+                box-shadow: 0 0 20px 20px #17293b;
+              }
+            }
       
             .spinner {
               height: 10px;
               width: auto;
             }
         }
+    }
+
+    .cardContainer {
+      display: flex;
+      margin: 20px;
+      overflow-y: auto;
+      height: calc(100vh - 190px);
+      flex-wrap: wrap;
     }
 }

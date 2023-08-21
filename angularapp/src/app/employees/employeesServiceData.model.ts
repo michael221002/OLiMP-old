@@ -1,8 +1,8 @@
 export interface nameList {
     employeeId: number;
-    firstname: string;
-    lastname: string;
-    GUID: number;
+    firstName: string;
+    lastName: string;
+    guid: number;
 }
 
 export class employeesServiceData {

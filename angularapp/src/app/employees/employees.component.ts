@@ -13,20 +13,17 @@ export class EmployeesComponent {
   constructor(private employeesService: EmployeesService){}
 
   myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]> | undefined;
 
   ngOnInit() {
     this.employeesService.requestForEmployeeNames()
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  searchFor(evt: Event) {
+    const input = (evt.target as HTMLInputElement).value.trim();
+    console.log(input);
+  }
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  geReqData(){
+    return this.employeesService.data.nameList
   }
 }

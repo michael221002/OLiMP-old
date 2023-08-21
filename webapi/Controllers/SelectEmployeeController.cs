@@ -25,10 +25,10 @@ namespace webapi.Controllers
             var employees = await _context.CurrentState
                 .Select(e => new EmployeeInfo
                 {
-                    EmployeeId = e.employeenumber,
-                    Guid = e.GUID,
-                    FirstName = e.firstname,
-                    LastName = e.lastname
+                    employeeId = e.employeenumber,
+                    guid = e.GUID,
+                    firstName = e.firstname,
+                    lastName = e.lastname
                 })
                 .ToArrayAsync();
 
@@ -38,9 +38,9 @@ namespace webapi.Controllers
 
     public class EmployeeInfo
     {
-        public int EmployeeId { get; set; }
-        public Guid Guid { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public int employeeId { get; set; }
+        public Guid guid { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
     }
 }
