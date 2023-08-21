@@ -7,13 +7,20 @@ import { RequestService } from '../services/request.service';
 })
 export class EmployeesService {
 
-  data: employeesServiceData = new employeesServiceData();
+  data?: employeesServiceData;
+
+  constructor(private requestService: RequestService) {
+    this.requestForEmployeeNames();
+  }
 
   requestForEmployeeNames(){
     this.requestService.getEmployeeNames().subscribe(
       (data: nameList[]) => {
-        this.data.nameList = data;
-        console.log(data);
+        this.data = new employeesServiceData(
+          data,
+          [''],
+          data,
+        );
       },
       (error) => {
         console.error('Fehler beim Abrufen der Daten:', error);
@@ -21,5 +28,19 @@ export class EmployeesService {
     );
   }
 
-  constructor(private requestService: RequestService) { }
+  filterNameList(input: string[]){
+    if (this.data) {
+      this.data.searchValue = input;
+      this.data.filteredNameList = [];
+
+      for (let employee of this.data.nameList){
+        const fullName = `${employee.firstName} ${employee.lastName}`;
+        
+        if (input.length === 0 ||
+            input.every(value => fullName.toLowerCase().includes(value.toLowerCase()))) {
+          this.data.filteredNameList.push(employee);
+        }
+      }
+    }
+  }
 }

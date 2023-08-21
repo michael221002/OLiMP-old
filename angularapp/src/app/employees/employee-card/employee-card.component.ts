@@ -10,8 +10,4 @@ export class EmployeeCardComponent {
 
   @Input() employeeReqData!: nameList;
 
-  ngOnInit() {
-    console.log(this.employeeReqData.firstName);
-  }
-
 }

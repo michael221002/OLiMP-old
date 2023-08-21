@@ -41,9 +41,11 @@
 
     .cardContainer {
       display: flex;
+      flex-direction: column;
       margin: 20px;
+      padding: 10px;
       overflow-y: auto;
-      height: calc(100vh - 190px);
-      flex-wrap: wrap;
+      height: calc(100vh - 200px);
+      gap: 20px;
     }
 }

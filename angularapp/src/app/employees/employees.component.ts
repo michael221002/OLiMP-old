@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { EmployeesService } from './employees.service';
-import { FormControl } from '@angular/forms';
-import { Observable, startWith, map } from 'rxjs';
 
 @Component({
   selector: 'app-employees',
@@ -12,18 +10,17 @@ export class EmployeesComponent {
 
   constructor(private employeesService: EmployeesService){}
 
-  myControl = new FormControl('');
-
   ngOnInit() {
     this.employeesService.requestForEmployeeNames()
   }
 
   searchFor(evt: Event) {
-    const input = (evt.target as HTMLInputElement).value.trim();
-    console.log(input);
-  }
+  const input = (evt.target as HTMLInputElement).value.trim();
+  const searchValues = input.split(' '); // Aufteilen bei Leerzeichen
+  this.employeesService.filterNameList(searchValues);
+}
 
   geReqData(){
-    return this.employeesService.data.nameList
+    return this.employeesService.data?.filteredNameList || [];
   }
 }

@@ -6,11 +6,13 @@ export interface nameList {
 }
 
 export class employeesServiceData {
-    nameList?: nameList[];
-    searchValue?: string;
+    nameList: nameList[];
+    searchValue: string[];
+    filteredNameList: nameList[];
 
-    constructor(nameList?: nameList[], searchValue?: string) {
+    constructor(nameList: nameList[], searchValue: string[], filteredNameList: nameList[]) {
         this.nameList = nameList;
         this.searchValue = searchValue;
+        this.filteredNameList = filteredNameList;
     }
 }

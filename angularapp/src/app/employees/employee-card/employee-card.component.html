@@ -1,11 +1,11 @@
 <mat-card class="card">
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{employeeReqData.firstName}} {{employeeReqData.lastName}}</mat-card-title>
-    <mat-card-subtitle>{{employeeReqData.guid}}</mat-card-subtitle>
+    <mat-card-subtitle>Employee Id: {{employeeReqData.employeeId}}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
-  </mat-card-content>
   <mat-card-actions>
+    <button mat-icon-button color="primary" [routerLink]="['/details', employeeReqData.employeeId]">
+      <mat-icon>account_circle</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>
