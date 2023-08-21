@@ -84,5 +84,45 @@ namespace webapi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
             }
         }
+
+        [HttpGet("changes/{employeeId}")]
+        public async Task<ActionResult<List<EmployeeChange>>> GetEmployeeChangesById(int employeeId)
+        {
+            try
+            {
+                var employeeChanges = await _context.EmployeeChanges.Where(ec => ec.EmployeeNumber == employeeId).ToListAsync();
+
+                if (employeeChanges == null || employeeChanges.Count == 0)
+                {
+                    return NotFound($"No employee changes found for EmployeeNumber {employeeId}.");
+                }
+
+                return Ok(employeeChanges);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        [HttpGet("generaldetails/{employeeId}")]
+        public async Task<ActionResult<tableShema>> GetEmployeeGeneralDetailsById(int employeeId)
+        {
+            try
+            {
+                var employeeGeneralDetails = await _context.CurrentState.FirstOrDefaultAsync(cs => cs.employeenumber == employeeId);
+
+                if (employeeGeneralDetails == null)
+                {
+                    return NotFound($"Employee general details with EmployeeNumber {employeeId} not found.");
+                }
+
+                return Ok(employeeGeneralDetails);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

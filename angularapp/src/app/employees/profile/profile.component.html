@@ -1,5 +1,40 @@
 <div class="main">
-    <div>
-        Showing product details for product: {{guid}}
+    <div style="position:sticky">
+        <h1>Employee Profile</h1>
+        <p>Showing details for Employee ID: {{ guid }}</p>
+    </div>
+    <div class="employee-details">
+        <h2>Employee General Details</h2>
+        <div *ngIf="employeeData">
+            <p>Employee Number: {{ employeeData.employeenumber }}</p>
+            <p>Name: {{ employeeData.firstname }} {{ employeeData.lastname }}</p>
+            <p>Email: {{ employeeData.email }}</p>
+            <p>User Principal Name: {{ employeeData.user_principal_name }}</p>
+            <p>Azure AD Object ID: {{ employeeData.azure_ad_object_id }}</p>
+            <p>Legacy Email: {{ employeeData.legacy_email }}</p>
+            <p>Middle Name: {{ employeeData.middle_name }}</p>
+            <p>Known As: {{ employeeData.known_as }}</p>
+            <p>Department: {{ employeeData.department }}</p>
+            <p>Profit Center: {{ employeeData.profitcenter }}</p>
+            <p>Region Code: {{ employeeData.region_code }}</p>
+            <p>Worker Type: {{ employeeData.worker_type }}</p>
+            <p>Office Location Code: {{ employeeData.office_location_code }}</p>
+            <p>Manager Employee Number: {{ employeeData.manager_employee_number }}</p>
+            <p>Is Employed: {{ employeeData.is_employed }}</p>
+            <p>Termination Date: {{ employeeData.termination_date }}</p>
+            <p>Last Date Worked UTC: {{ employeeData.last_date_worked_utc }}</p>
+        </div>
+        <div *ngIf="!employeeData">Loading employee details...</div>
+    </div>
+    <div class="employee-changes">
+        <h2>Employee Changes</h2>
+        <div *ngIf="employeeChanges.length > 0">
+            <ul>
+                <li *ngFor="let change of employeeChanges">
+                    {{ change.changeDate }} - {{ change.oldKey }} -> {{ change.newKey }}
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="employeeChanges.length === 0">No changes found for this employee.</div>
     </div>
 </div>

@@ -1,5 +1,27 @@
 .main {
     width: auto;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 104px);
     background-color: #325881;
+    color: white;
+    overflow: auto;
+    padding: 20px;
+}
+
+.employee-details, .employee-changes {
+    background-color: #24405d;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.employee-details h2, .employee-changes h2 {
+    margin-top: 0;
+}
+
+.employee-changes ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.employee-changes li {
+    margin-bottom: 5px;
 }

@@ -55,4 +55,12 @@ export class RequestService {
     let baseUrl = 'https://localhost:7169/api/SelectEmployee';
     return this.http.get<nameList[]>(baseUrl);
   }
+  getEmployeeDetail(id: number): Observable<tableScema> {
+    let baseUrl = `https://localhost:7169/api/EmployeeChanges/generaldetails/${id}`;
+    return this.http.get<tableScema>(baseUrl);
+  }
+  getEmployeeChanges(id: number): Observable<saveChange[]> {
+    let baseUrl = `https://localhost:7169/api/EmployeeChanges/changes/${id}`;
+    return this.http.get<saveChange[]>(baseUrl);
+  }
 }
