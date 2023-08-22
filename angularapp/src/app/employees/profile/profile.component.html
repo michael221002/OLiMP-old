@@ -1,13 +1,17 @@
 <div class="main">
-    <div style="position:sticky">
-        <h1>Employee Profile</h1>
-        <p>Showing details for Employee ID: {{ guid }}</p>
+    <div style="width: auto; display: flex; justify-content: space-between; position: sticky; top: -20px; background-color: #325881; padding: 20px;">
+        <div *ngIf="employeeData">
+            <h1>{{ employeeData.firstname }} {{ employeeData.lastname }}</h1>
+            <p>Showing details for Employee ID: {{ guid }}</p>
+        </div>
+        <button mat-raised-button color="primary" routerLink="../../employees">Back</button>
     </div>
     <div class="employee-details">
         <h2>Employee General Details</h2>
         <div *ngIf="employeeData">
             <p>Employee Number: {{ employeeData.employeenumber }}</p>
-            <p>Name: {{ employeeData.firstname }} {{ employeeData.lastname }}</p>
+            <p>Firstname: {{ employeeData.firstname }}</p>
+            <p>Lastname: {{ employeeData.lastname }}</p>
             <p>Email: {{ employeeData.email }}</p>
             <p>User Principal Name: {{ employeeData.user_principal_name }}</p>
             <p>Azure AD Object ID: {{ employeeData.azure_ad_object_id }}</p>

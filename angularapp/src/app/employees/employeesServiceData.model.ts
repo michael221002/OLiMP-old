@@ -10,9 +10,9 @@ export class employeesServiceData {
     searchValue: string[];
     filteredNameList: nameList[];
 
-    constructor(nameList: nameList[], searchValue: string[], filteredNameList: nameList[]) {
-        this.nameList = nameList;
-        this.searchValue = searchValue;
-        this.filteredNameList = filteredNameList;
+    constructor(nameList?: nameList[], searchValue?: string[], filteredNameList?: nameList[]) {
+        this.nameList = nameList = [];
+        this.searchValue = searchValue = [];
+        this.filteredNameList = filteredNameList = [];
     }
 }

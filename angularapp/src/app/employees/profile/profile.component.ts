@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.requestService.getEmployeeDetail(this.guid).subscribe(
         (employeeData: tableScema) => {
           this.employeeData = employeeData;
+          console.log(employeeData);
         },
         error => {
           console.error('Error fetching employee general details:', error);

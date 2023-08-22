@@ -10,17 +10,31 @@ export class EmployeesComponent {
 
   constructor(private employeesService: EmployeesService){}
 
+  searchValue: string[] = []; // Change the type to string[]
+
   ngOnInit() {
-    this.employeesService.requestForEmployeeNames()
+    this.employeesService.requestForEmployeeNames();
+    this.searchValue = this.employeesService.getSearchValue();
   }
 
-  searchFor(evt: Event) {
-  const input = (evt.target as HTMLInputElement).value.trim();
-  const searchValues = input.split(' '); // Aufteilen bei Leerzeichen
-  this.employeesService.filterNameList(searchValues);
+  searchFor(evtOrInput: Event | string) {
+    let input: string;
+
+    if (typeof evtOrInput === 'string') {
+        input = evtOrInput;
+    } else {
+        input = (evtOrInput.target as HTMLInputElement).value.trim();
+    }
+
+    const searchValues = input.split(' '); // Aufteilen bei Leerzeichen
+    this.employeesService.filterNameList(searchValues);
 }
 
   geReqData(){
     return this.employeesService.data?.filteredNameList || [];
+  }
+
+  getSearchValue(){
+    return this.employeesService.getSearchValue();
   }
 }
