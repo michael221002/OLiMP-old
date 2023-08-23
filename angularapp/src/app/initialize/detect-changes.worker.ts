@@ -21,7 +21,7 @@ function changeMessage(current: tableScema, next: tableScema, date: string) {
 
   for (const key of keys) {
     if (current[key] !== next[key]) {
-      const value: changedData = { KeyName: key, OldKey: current[key], NewKey: next[key], ChangeDate: date };
+      let value: changedData = { KeyName: key, OldKey: current[key], NewKey: next[key], ChangeDate: date };
       changeData.push(value);
     }
   }
@@ -29,7 +29,6 @@ function changeMessage(current: tableScema, next: tableScema, date: string) {
 }
 
 addEventListener('message', ({ data }) => {
-  console.log(data);
   const files: InitializeFiles[] = data.files;
   const changes: preChanges[] = [];
 
@@ -37,6 +36,7 @@ addEventListener('message', ({ data }) => {
     const currentFileData: tableScema[] = files[file].jsonData;
     const nextFileData: tableScema[] = files[file + 1].jsonData;
      //nimmt also das Datum der nächsten Datei 
+     let date = String(files[file + 1].fileDate)
 
     for (let employee = 0; employee < currentFileData.length; employee++) {
       let currentEmployee: tableScema= currentFileData[employee];
@@ -46,7 +46,7 @@ addEventListener('message', ({ data }) => {
       
 
       if (matchedEmployee && hasChanged(currentEmployee, matchedEmployee)) {
-        let changeData = changeMessage(currentEmployee, matchedEmployee, String(new Date()));
+        let changeData = changeMessage(currentEmployee, matchedEmployee, date);
         changes.push(new preChanges(currentEmployee, changeData));
 
         // Hier senden wir die Log-Nachrichten an den Hauptthread. with log

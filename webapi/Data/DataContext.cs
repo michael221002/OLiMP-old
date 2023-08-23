@@ -8,7 +8,6 @@ namespace webapi.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         //Tables
-        public DbSet<SuperHero> SuperHeroes => Set<SuperHero>();
         public DbSet<tableShema> CurrentState => Set<tableShema>();
         public DbSet<EmployeeChange> EmployeeChanges => Set<EmployeeChange>();
         public DbSet<departementsModel> Departements => Set<departementsModel>();

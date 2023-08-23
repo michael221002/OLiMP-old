@@ -1,4 +1,7 @@
-﻿namespace webapi.models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace webapi.models
 {
     public class tableShema
     {

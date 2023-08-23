@@ -130,7 +130,6 @@ export class InitializeService {
   //initialising context
   changes: preChanges[] = [];
   detectChanges(): Observable<preChanges> {
-    //console.log(this.getInitializeFiles())
     return new Observable((observer) => {
       const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));
       const logs: string[] = []; // Neues Array, um die Log-Nachrichten zu speichern.
@@ -147,8 +146,7 @@ export class InitializeService {
           this.handleChanges(changes);
 
           // Jetzt können Sie auch das 'logs'-Array verwenden, um die webConsole zu aktualisieren.
-          /*for (const logMessage of logs) {
-            console.log(JSON.stringify(logMessage)); // Rufen Sie die print-Funktion
+          /*for (const logMessage of logs) { // Rufen Sie die print-Funktion
           }*/
 
           observer.next(changes);
@@ -169,7 +167,6 @@ export class InitializeService {
   //with log
   /*
   detectChanges(): Observable<any> {
-    console.log(this.getInitializeFiles())
     return this.getInitializeFiles().pipe(
       switchMap((files) => {
         const worker = new Worker(new URL('./detect-changes.worker', import.meta.url));

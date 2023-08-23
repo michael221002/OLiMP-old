@@ -4,7 +4,7 @@
             <h1>{{ employeeData.firstname }} {{ employeeData.lastname }}</h1>
             <p>Showing details for Employee ID: {{ guid }}</p>
         </div>
-        <button mat-raised-button color="primary" routerLink="../../employees">Back</button>
+        <button mat-raised-button color="primary" routerLink="../../">Back</button>
     </div>
     <div class="employee-details">
         <h2>Employee General Details</h2>
@@ -35,7 +35,7 @@
         <div *ngIf="employeeChanges.length > 0">
             <ul>
                 <li *ngFor="let change of employeeChanges">
-                    {{ change.changeDate }} - {{ change.oldKey }} -> {{ change.newKey }}
+                    <br>[{{ change.changeDate }}] <br> {{change.keyName}}: {{ change.oldKey }} -> {{ change.newKey }}<br>
                 </li>
             </ul>
         </div>
