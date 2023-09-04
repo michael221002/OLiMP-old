@@ -1,4 +1,3 @@
-C:\Dev\Projekte\OLiMP\angularapp\obj\Debug\angularapp.esproj.SuggestedBindingRedirects.cache
 C:\Dev\Projekte\OLiMP\angularapp\obj\Debug\angularapp.esproj.CoreCompileInputs.cache
 C:\Dev\Projekte\OLiMP - Copy\angularapp\obj\Debug\angularapp.esproj.SuggestedBindingRedirects.cache
 C:\Dev\Projekte\OLiMP - Copy\angularapp\obj\Debug\angularapp.esproj.CoreCompileInputs.cache
